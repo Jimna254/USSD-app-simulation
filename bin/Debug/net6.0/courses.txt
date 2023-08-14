@@ -1,0 +1,5 @@
+1,C#Full Stack Development,500
+2,JavaScript Full-Stack Development ,400
+3,QA/QE,200
+4,WordPress Full Stack Development,300
+5,PHP Backend,300

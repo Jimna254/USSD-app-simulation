@@ -1,0 +1,3 @@
+James,Kariuki,Admin
+User,User,NormalUser
+Admin,Admin,Admin
