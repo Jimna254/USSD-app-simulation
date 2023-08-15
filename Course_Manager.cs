@@ -27,7 +27,7 @@ namespace Week2_Challenge
     public class Course_Manager
     {
         private List<Course> courses;
-        private const string CoursesFileName = "courses.txt";
+        private const string CoursesFileName = "C:\\Users\\jimmy\\source\\repos\\Week2 Challenge\\Week2 Challenge\\Root\\courses.txt";
 
         public Course_Manager()
         {

@@ -43,7 +43,18 @@ namespace Week2_Challenge
                         break;
 
                     case 2:
-                        // Purchase Course logic
+                        courseManager.DisplayCourses();
+
+                        Console.Write("Enter the ID of the course you want to purchase: ");
+                        if (int.TryParse(Console.ReadLine(), out int courseId))
+                        {
+                            CoursePurchase coursePurchase = new CoursePurchase(courseManager, user);
+                            coursePurchase.PurchaseCourse(courseId);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid course ID. Purchase failed.");
+                        }
                         break;
 
                     case 3:
@@ -58,3 +69,4 @@ namespace Week2_Challenge
         }
     }
 }
+

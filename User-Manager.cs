@@ -18,6 +18,7 @@ namespace Week2_Challenge
         public string Name { get; set; }
         public string Password { get; set; }
         public UserRole Role { get; set; }
+        public double? Balance { get; set; }
     }
 
     public class User_Manager
@@ -75,4 +76,4 @@ namespace Week2_Challenge
             }
         }
     }
-}
+    }

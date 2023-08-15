@@ -6,30 +6,51 @@ using System.Threading.Tasks;
 
 namespace Week2_Challenge
 {
+    public class AnalyticsEntry
+    {
+        public int CourseID { get; set; }
+        public string CourseName { get; set; }
+        public double CoursePrice { get; set; }
+        public string UserName { get; set; }
+        public DateTime PurchaseDate { get; set; }
+    }
+
     public class Analytics_Manager
     {
-        private List<PurchaseRecord> purchaseRecords;
+        private List<AnalyticsEntry> analyticsEntries;
         private const string AnalyticsFileName = "C:\\Users\\jimmy\\source\\repos\\Week2 Challenge\\Week2 Challenge\\Root\\analytics.txt";
 
         public Analytics_Manager()
         {
-            purchaseRecords = new List<PurchaseRecord>();
+            analyticsEntries = new List<AnalyticsEntry>();
             LoadAnalyticsFromFile();
         }
 
-        public void RecordPurchase(string username, string courseName)
+        public void RecordPurchase(int courseID, string courseName, double coursePrice, string userName)
         {
-            PurchaseRecord record = new PurchaseRecord(username, courseName);
-            purchaseRecords.Add(record);
+            AnalyticsEntry entry = new AnalyticsEntry
+            {
+                CourseID = courseID,
+                CourseName = courseName,
+                CoursePrice = coursePrice,
+                UserName = userName,
+                PurchaseDate = DateTime.Now
+            };
+            analyticsEntries.Add(entry);
             SaveAnalyticsToFile();
+        }
+
+        public List<AnalyticsEntry> GetAnalytics()
+        {
+            return analyticsEntries;
         }
 
         public void DisplayAnalytics()
         {
-            Console.WriteLine("Purchase Analytics:");
-            foreach (var record in purchaseRecords)
+            Console.WriteLine("Analytics:");
+            foreach (var entry in analyticsEntries)
             {
-                Console.WriteLine($"Username: {record.Username}, Course: {record.CourseName}");
+                Console.WriteLine($"Course ID: {entry.CourseID}, Course Name: {entry.CourseName}, Course Price: {entry.CoursePrice}, User: {entry.UserName}, Date: {entry.PurchaseDate}");
             }
         }
 
@@ -43,9 +64,16 @@ namespace Week2_Challenge
                     while ((line = reader.ReadLine()) != null)
                     {
                         string[] parts = line.Split(',');
-                        if (parts.Length == 2)
+                        if (parts.Length == 5 && int.TryParse(parts[0], out int courseID) && double.TryParse(parts[2], out double coursePrice) && DateTime.TryParse(parts[4], out DateTime purchaseDate))
                         {
-                            purchaseRecords.Add(new PurchaseRecord(parts[0], parts[1]));
+                            analyticsEntries.Add(new AnalyticsEntry
+                            {
+                                CourseID = courseID,
+                                CourseName = parts[1],
+                                CoursePrice = coursePrice,
+                                UserName = parts[3],
+                                PurchaseDate = purchaseDate
+                            });
                         }
                     }
                 }
@@ -56,22 +84,10 @@ namespace Week2_Challenge
         {
             using (StreamWriter writer = new StreamWriter(AnalyticsFileName))
             {
-                foreach (var record in purchaseRecords)
+                foreach (var entry in analyticsEntries)
                 {
-                    writer.WriteLine($"{record.Username},{record.CourseName}");
+                    writer.WriteLine($"{entry.CourseID},{entry.CourseName},{entry.CoursePrice},{entry.UserName},{entry.PurchaseDate}");
                 }
-            }
-        }
-
-        private class PurchaseRecord
-        {
-            public string Username { get; }
-            public string CourseName { get; }
-
-            public PurchaseRecord(string username, string courseName)
-            {
-                Username = username;
-                CourseName = courseName;
             }
         }
     }
